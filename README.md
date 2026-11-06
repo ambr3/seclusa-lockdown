@@ -1,5 +1,9 @@
 # Seclusa Lockdown
 
+**Very early development.** This is a first public build, not a finished game.
+Decks, combat, balance, and the look are still changing. Expect rough edges,
+including the install icons.
+
 Your ship crash-lands on a strange planet. A sealed fortress sits nearby —
 fight through its decks, salvage the parts, and get airborne again.
 
