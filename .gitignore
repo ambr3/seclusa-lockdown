@@ -1,0 +1,14 @@
+# OS files
+Thumbs.db
+.DS_Store
+
+# Editor
+.idea/
+*.iml
+.vscode/
+*.swp
+*.bak
+
+# Python bytecode, in case a script is added later
+__pycache__/
+*.py[cod]

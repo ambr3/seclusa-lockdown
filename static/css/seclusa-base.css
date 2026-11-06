@@ -1,0 +1,335 @@
+/*
+ * Seclusa base theme — the shared palette for every Seclusa app.
+ *
+ * CANONICAL COPY. Edit this file, then run:
+ *
+ *     python3 scripts/sync_theme.py
+ *
+ * which copies it into each app that has opted in. A test fails if any app's
+ * copy has drifted from this one, so there is exactly one place to change.
+ *
+ * Why a copy and not a shared link: every app here is a standalone PWA. It has
+ * to work offline, be hosted from its own folder, and open from a file:// path
+ * in development. A stylesheet that reached across folders into a parent
+ * directory would break all three. So the tokens travel with the app.
+ *
+ * The palette is black and white on purpose. These apps are sold on what they
+ * do not do with your data, and colour is not something that earns its place
+ * here. There is no brand colour: the accent is simply the opposite of the
+ * background, white on black and black on white.
+ *
+ * The default page sky is orange ruled lines + a soft orange corner glow on
+ * that black/white surface (Light = white sheet, Dark = near-black). Apps that
+ * need a flat or solid sky set data-bg to something other than "grid".
+ *
+ * Two things keep colour, because colour there carries meaning and removing it
+ * would remove information rather than decoration:
+ *   - status (--danger, --warn, --ok): an overdue reminder has to look overdue
+ *   - the calendar's event types, which the user can set themselves
+
+ */
+
+:root {
+  color-scheme: light;
+
+  /* Surfaces. Near-black rather than pure black so an edge against pure black
+     is still visible on an OLED panel. */
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f2f2f2;
+  --surface-3: #e6e6e6;
+
+  /* Text. */
+  --text: #0a0a0a;
+  --text-dim: #5a5a5a;
+  --text-faint: #8a8a8a;
+
+  /* Lines. */
+  --border: #d4d4d4;
+  --border-strong: #a8a8a8;
+
+  /* Ruled lines on a sheet of paper. Derived rather than repeated per theme,
+     so it darkens and lightens with everything else. */
+  --rule: color-mix(in srgb, var(--text) 9%, transparent);
+
+  /* The accent is the opposite of the background: it marks the current
+     selection and the primary action, nothing else. */
+  --accent: #0a0a0a;
+  --accent-hover: #000000;
+  --accent-text: #ffffff;
+  --accent-tint: rgba(10, 10, 10, 0.08);
+  --accent-glow: rgba(10, 10, 10, 0.28);
+
+  /* The one warm note. Deliberately weak: this tints and glows, it does not
+     fill. Anything solid should use --accent. */
+  --warm: #c45e12;
+  --warm-strong: #9a4a0c;
+  --warm-tint: rgba(196, 94, 18, 0.09);
+  --warm-edge: rgba(196, 94, 18, 0.4);
+  --warm-glow: rgba(196, 94, 18, 0.32);
+
+  /* Status. Kept because they carry meaning, not decoration. */
+  --danger: #a1160d;
+  --warn: #6b4b00;
+  --ok: #1c6b3c;
+
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.13), 0 1px 2px rgba(0, 0, 0, 0.09);
+  --radius: 10px;
+
+  /* Default orange lines sky (light sheet). Kept very faint so content wins. */
+  --grid-line: color-mix(in srgb, var(--warm) 7%, transparent);
+  --grid-wash: color-mix(in srgb, var(--warm) 5%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface-2: #1c1c1c;
+    --surface-3: #262626;
+
+    --text: #f5f5f5;
+    --text-dim: #a3a3a3;
+    --text-faint: #737373;
+
+    --border: #2e2e2e;
+    --border-strong: #454545;
+
+    --accent: #ffffff;
+    --accent-hover: #ffffff;
+    --accent-text: #0a0a0a;
+    --accent-tint: rgba(255, 255, 255, 0.14);
+    --accent-glow: rgba(255, 255, 255, 0.4);
+
+    --warm: #e08a3c;
+    --warm-strong: #f0a35f;
+    --warm-tint: rgba(224, 138, 60, 0.12);
+    --warm-edge: rgba(224, 138, 60, 0.45);
+    --warm-glow: rgba(224, 138, 60, 0.4);
+
+    --danger: #f2857c;
+    --warn: #e0b25a;
+    --ok: #6cc48f;
+
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+
+    --grid-line: color-mix(in srgb, var(--warm) 9%, transparent);
+    --grid-wash: color-mix(in srgb, var(--warm) 6%, transparent);
+  }
+}
+
+/* When an app sets an explicit theme (the calendar pane does, via
+   data-theme), that wins over the system preference. The tokens are declared
+   once and re-pointed, rather than duplicated per attribute. */
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f2f2f2;
+  --surface-3: #e6e6e6;
+  --text: #0a0a0a;
+  --text-dim: #5a5a5a;
+  --text-faint: #8a8a8a;
+  --border: #d4d4d4;
+  --border-strong: #a8a8a8;
+  --accent: #0a0a0a;
+  --accent-hover: #000000;
+  --accent-text: #ffffff;
+  --accent-tint: rgba(10, 10, 10, 0.08);
+  --accent-glow: rgba(10, 10, 10, 0.28);
+  --warm: #c45e12;
+  --warm-strong: #9a4a0c;
+  --warm-tint: rgba(196, 94, 18, 0.09);
+  --warm-edge: rgba(196, 94, 18, 0.4);
+  --warm-glow: rgba(196, 94, 18, 0.32);
+  --danger: #a1160d;
+  --warn: #6b4b00;
+  --ok: #1c6b3c;
+  --grid-line: color-mix(in srgb, var(--warm) 7%, transparent);
+  --grid-wash: color-mix(in srgb, var(--warm) 5%, transparent);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0a0a0a;
+  --surface: #111111;
+  --surface-2: #1c1c1c;
+  --surface-3: #262626;
+  --text: #f5f5f5;
+  --text-dim: #a3a3a3;
+  --text-faint: #737373;
+  --border: #2e2e2e;
+  --border-strong: #454545;
+  --accent: #ffffff;
+  --accent-hover: #ffffff;
+  --accent-text: #0a0a0a;
+  --accent-tint: rgba(255, 255, 255, 0.14);
+  --accent-glow: rgba(255, 255, 255, 0.4);
+  --warm: #e08a3c;
+  --warm-strong: #f0a35f;
+  --warm-tint: rgba(224, 138, 60, 0.12);
+  --warm-edge: rgba(224, 138, 60, 0.45);
+  --warm-glow: rgba(224, 138, 60, 0.4);
+  --danger: #f2857c;
+  --warn: #e0b25a;
+  --ok: #6cc48f;
+  --grid-line: color-mix(in srgb, var(--warm) 9%, transparent);
+  --grid-wash: color-mix(in srgb, var(--warm) 6%, transparent);
+}
+
+/*
+ * Default Seclusa sky: orange ruled lines + soft corner glow.
+ * Light = white sheet; Dark = near-black. No filter / background-attachment:fixed.
+ * Opt out: set data-bg to anything except "grid" (Weather solid skies do this).
+ */
+html {
+  background-color: var(--bg);
+}
+
+/*
+ * Body stays transparent + isolated so body::before (z-index: -1) can paint
+ * the sky. An opaque body (or a ::before that slips behind html) hid the lines
+ * so only a top sliver leaked. Solid data-bg values set body colour below.
+ */
+html body {
+  background-color: transparent;
+  isolation: isolate;
+}
+
+html body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+    radial-gradient(ellipse 95% 60% at 12% -6%, var(--grid-wash), transparent 58%),
+    radial-gradient(ellipse 70% 48% at 92% 108%, var(--grid-wash), transparent 52%);
+  background-size: 64px 64px, 64px 64px, auto, auto;
+}
+
+html[data-bg]:not([data-bg="grid"]) body::before {
+  background-image: none;
+  background-color: var(--bg-solid, var(--bg));
+}
+
+/* Named / custom solid page colours (Theme → Background). Not Day/Night. */
+html {
+  --bg-custom: #5faff0;
+  --bg-solid: var(--bg);
+}
+
+html[data-bg="blue"] { --bg-solid: #3b82f6; }
+html[data-bg="lightblue"] { --bg-solid: #7dd3fc; }
+html[data-bg="teal"] { --bg-solid: #14b8a6; }
+html[data-bg="green"] { --bg-solid: #22c55e; }
+html[data-bg="yellow"] { --bg-solid: #facc15; }
+html[data-bg="orange"] { --bg-solid: #f97316; }
+html[data-bg="red"] { --bg-solid: #ef4444; }
+html[data-bg="purple"] { --bg-solid: #a855f7; }
+html[data-bg="black"] { --bg-solid: #0a0a0a; }
+html[data-bg="white"] { --bg-solid: #ffffff; }
+html[data-bg="custom"] { --bg-solid: var(--bg-custom, #5faff0); }
+
+html[data-bg="blue"],
+html[data-bg="lightblue"],
+html[data-bg="teal"],
+html[data-bg="green"],
+html[data-bg="yellow"],
+html[data-bg="orange"],
+html[data-bg="red"],
+html[data-bg="purple"],
+html[data-bg="black"],
+html[data-bg="white"],
+html[data-bg="custom"] {
+  --bg: var(--bg-solid);
+  background-color: var(--bg-solid);
+}
+
+html[data-bg="blue"] body,
+html[data-bg="lightblue"] body,
+html[data-bg="teal"] body,
+html[data-bg="green"] body,
+html[data-bg="yellow"] body,
+html[data-bg="orange"] body,
+html[data-bg="red"] body,
+html[data-bg="purple"] body,
+html[data-bg="black"] body,
+html[data-bg="white"] body,
+html[data-bg="custom"] body {
+  background-color: var(--bg-solid);
+}
+
+/* Colour / light pages → frosted light chrome. Near-black → dark chrome. */
+html[data-bg="white"],
+html[data-bg="yellow"],
+html[data-bg="lightblue"],
+html[data-bg="blue"],
+html[data-bg="teal"],
+html[data-bg="green"],
+html[data-bg="orange"],
+html[data-bg="red"],
+html[data-bg="purple"],
+html[data-bg-tone="light"] {
+  --surface: color-mix(in srgb, #ffffff 92%, var(--bg-solid));
+  --surface-2: color-mix(in srgb, #ffffff 86%, var(--bg-solid));
+  --surface-3: #ffffff;
+  --border: color-mix(in srgb, #0a0a0a 14%, transparent);
+  --border-strong: color-mix(in srgb, #0a0a0a 22%, transparent);
+  --text: #0a0a0a;
+  --text-dim: #4a4a4a;
+  --text-faint: #6a6a6a;
+  --accent: #0a0a0a;
+  --accent-hover: #000000;
+  --accent-text: #ffffff;
+  --accent-tint: rgba(10, 10, 10, 0.08);
+}
+
+html[data-bg="black"],
+html[data-bg-tone="dark"] {
+  --surface: #141414;
+  --surface-2: #1c1c1c;
+  --surface-3: #262626;
+  --border: #2e2e2e;
+  --border-strong: #454545;
+  --text: #f5f5f5;
+  --text-dim: #a3a3a3;
+  --text-faint: #737373;
+  --accent: #ffffff;
+  --accent-hover: #ffffff;
+  --accent-text: #0a0a0a;
+  --accent-tint: rgba(255, 255, 255, 0.14);
+}
+
+html[data-bg="custom"][data-bg-tone="light"] {
+  --surface: color-mix(in srgb, #ffffff 92%, var(--bg-solid));
+  --surface-2: color-mix(in srgb, #ffffff 86%, var(--bg-solid));
+  --surface-3: #ffffff;
+  --border: color-mix(in srgb, #0a0a0a 14%, transparent);
+  --border-strong: color-mix(in srgb, #0a0a0a 22%, transparent);
+  --text: #0a0a0a;
+  --text-dim: #4a4a4a;
+  --text-faint: #6a6a6a;
+  --accent: #0a0a0a;
+  --accent-hover: #000000;
+  --accent-text: #ffffff;
+}
+
+html[data-bg="custom"][data-bg-tone="dark"] {
+  --surface: color-mix(in srgb, #141414 88%, var(--bg-solid));
+  --surface-2: color-mix(in srgb, #1c1c1c 90%, var(--bg-solid));
+  --surface-3: color-mix(in srgb, #262626 92%, var(--bg-solid));
+  --border: color-mix(in srgb, #ffffff 14%, transparent);
+  --border-strong: color-mix(in srgb, #ffffff 22%, transparent);
+  --text: #f5f5f5;
+  --text-dim: #a3a3a3;
+  --text-faint: #737373;
+  --accent: #ffffff;
+  --accent-hover: #ffffff;
+  --accent-text: #0a0a0a;
+}

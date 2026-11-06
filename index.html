@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-bg="grid">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Crash-landed on a strange planet. Fight through a fortress for ship parts. Offline — data stays on this device.">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Seclusa Lockdown">
+
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=(), browsing-topics=()">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; media-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; child-src 'none'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests">
+
+  <title>Seclusa Lockdown</title>
+
+  <script src="static/js/theme-boot.js?v=1.9.0"></script>
+  <link rel="stylesheet" href="static/css/seclusa-base.css">
+  <link rel="stylesheet" href="static/css/app.css?v=1.9.0">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="static/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="static/icons/icon-192.png">
+</head>
+<body class="game-app">
+
+<header class="topbar">
+  <div class="topbar-row">
+    <button type="button" class="accentpill" id="btn-settings" aria-haspopup="dialog" aria-controls="sheet-settings">Settings</button>
+    <button type="button" class="accentpill" id="btn-main-menu">Menu</button>
+    <h1 class="brand">Seclusa Lockdown</h1>
+    <button type="button" class="accentpill" id="btn-theme" aria-haspopup="dialog" aria-controls="sheet-theme">Theme</button>
+  </div>
+</header>
+
+<main class="stage" id="stage">
+  <canvas id="game" width="800" height="600" aria-label="Fortress decks"></canvas>
+
+  <div class="overlay" id="overlay-menu">
+    <div class="overlay-card menu-card">
+      <p class="menu-kicker">Offline · local only</p>
+      <h2 class="overlay-title">Seclusa Lockdown</h2>
+      <p class="overlay-lede">Your ship is down on the sand. The fortress in front of you has the parts that can get you off this rock.</p>
+
+      <ol class="story-beats">
+        <li><span class="story-num">1</span><span class="story-text"><strong>Crash site.</strong> The wreck is outside the wall. Take the red keycard and open the outer gate.</span></li>
+        <li><span class="story-num">2</span><span class="story-text"><strong>The decks.</strong> Grunts rush. Crawlers hug the walls. Fortresses hold the doors. Doors open red, then green, then blue.</span></li>
+        <li><span class="story-num">3</span><span class="story-text"><strong>Salvage bay.</strong> The ship parts are at the end. Clear the fortress core and patch the hull.</span></li>
+      </ol>
+
+      <p class="overlay-copy" id="menu-controls"></p>
+      <p class="overlay-meta" id="menu-best"></p>
+      <button type="button" class="btn primary wide" id="btn-play">Begin run</button>
+      <button type="button" class="btn wide mt10" id="btn-continue" hidden>Continue</button>
+    </div>
+  </div>
+
+  <div class="overlay hidden" id="overlay-over" hidden>
+    <div class="overlay-card">
+      <h2 class="overlay-title" id="over-title">Game over</h2>
+      <p class="overlay-copy" id="over-score">Score: 0</p>
+      <button type="button" class="btn primary wide" id="btn-restart">New run</button>
+      <button type="button" class="btn wide mt10" id="btn-menu">Menu</button>
+    </div>
+  </div>
+</main>
+
+<div class="scrim" id="scrim"></div>
+
+<div class="sheet" id="sheet-theme" role="dialog" aria-modal="false" aria-label="Theme" aria-hidden="true">
+  <div class="sheet-handle" aria-hidden="true"></div>
+  <h3>Theme</h3>
+  <p class="note">Mode. Background stays orange ruled lines.</p>
+  <div class="theme-mode-row" role="group" aria-label="Colour mode">
+    <button type="button" class="theme-chip" data-theme-opt="system" role="menuitemradio" aria-checked="false">System</button>
+    <button type="button" class="theme-chip" data-theme-opt="light" role="menuitemradio" aria-checked="false">Light</button>
+    <button type="button" class="theme-chip" data-theme-opt="dark" role="menuitemradio" aria-checked="false">Dark</button>
+  </div>
+</div>
+
+<div class="sheet" id="sheet-settings" role="dialog" aria-modal="false" aria-label="Settings" aria-hidden="true">
+  <div class="sheet-handle" aria-hidden="true"></div>
+  <h3>Settings</h3>
+  <p class="note">Saved on this device.</p>
+
+  <div class="settings-row">
+    <div class="settings-copy">
+      <p class="settings-label">Auto-aim</p>
+      <p class="settings-hint">On: move + Space. Off: mouse or dual-stick aim.</p>
+    </div>
+    <button type="button" class="toggle" id="opt-auto-aim" role="switch" aria-checked="true">
+      <span class="toggle-track" aria-hidden="true"></span>
+      <span class="toggle-state">On</span>
+    </button>
+  </div>
+
+  <div class="settings-row">
+    <div class="settings-copy">
+      <p class="settings-label">Mute SFX</p>
+      <p class="settings-hint">Web Audio beeps only.</p>
+    </div>
+    <button type="button" class="toggle" id="opt-mute" role="switch" aria-checked="false">
+      <span class="toggle-track" aria-hidden="true"></span>
+      <span class="toggle-state">Off</span>
+    </button>
+  </div>
+
+  <p class="theme-section-label">Difficulty</p>
+  <div class="theme-mode-row" role="group" aria-label="Difficulty">
+    <button type="button" class="theme-chip" data-diff-opt="easy" role="menuitemradio" aria-checked="false">Easy</button>
+    <button type="button" class="theme-chip" data-diff-opt="normal" role="menuitemradio" aria-checked="true">Normal</button>
+    <button type="button" class="theme-chip" data-diff-opt="hard" role="menuitemradio" aria-checked="false">Hard</button>
+  </div>
+</div>
+
+<div class="sheet" id="sheet-shop" role="dialog" aria-modal="false" aria-label="Supply terminal" aria-hidden="true">
+  <div class="sheet-handle" aria-hidden="true"></div>
+  <h3>Supply terminal</h3>
+  <p class="note">Credits <span id="shop-credits">0</span> · Ammo <span id="shop-ammo">0</span> · HP <span id="shop-hp">0</span></p>
+  <div class="shop-list">
+    <button type="button" class="shop-item" data-shop-buy="ammo">
+      <span class="shop-name">+30 ammo</span>
+      <span class="shop-tag" data-cost="12">12 cr</span>
+    </button>
+    <button type="button" class="shop-item" data-shop-buy="shotgun">
+      <span class="shop-name">Scatter gun</span>
+      <span class="shop-tag" data-cost="35">35 cr</span>
+    </button>
+    <button type="button" class="shop-item" data-shop-buy="rifle">
+      <span class="shop-name">Rifle</span>
+      <span class="shop-tag" data-cost="55">55 cr</span>
+    </button>
+    <button type="button" class="shop-item" data-shop-buy="heal">
+      <span class="shop-name">+1 HP</span>
+      <span class="shop-tag" data-cost="18">18 cr</span>
+    </button>
+    <button type="button" class="shop-item" data-shop-buy="breach">
+      <span class="shop-name">Breach charge</span>
+      <span class="shop-tag" data-cost="26">26 cr</span>
+    </button>
+    <button type="button" class="shop-item" data-shop-buy="dash">
+      <span class="shop-name">Dash</span>
+      <span class="shop-tag" data-cost="32">32 cr</span>
+    </button>
+    <button type="button" class="shop-item" data-shop-buy="hull">
+      <span class="shop-name">Hull patch</span>
+      <span class="shop-tag" data-cost="40">40 cr</span>
+    </button>
+  </div>
+  <div class="shop-actions">
+    <button type="button" class="btn wide" id="btn-shop-close">Close</button>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="static/js/store.js?v=1.9.0"></script>
+<script src="static/js/theme.js?v=1.9.0"></script>
+<script src="static/js/settings.js?v=1.9.0"></script>
+<script src="static/js/audio.js?v=1.9.0"></script>
+<script src="static/js/map.js?v=1.9.0"></script>
+<script src="static/js/input.js?v=1.9.0"></script>
+<script src="static/js/game.js?v=1.9.0"></script>
+<script src="static/js/app.js?v=1.9.0"></script>
+</body>
+</html>

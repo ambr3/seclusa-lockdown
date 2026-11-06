@@ -1,0 +1,25 @@
+# Sample headers for hosts that read this file (Netlify, Cloudflare Pages).
+# GitHub Pages ignores it. The HTML meta CSP is what applies there.
+#
+# connect-src is 'self' here, not 'none'. The page meta says 'none', and both
+# apply to documents, so the page still cannot make a request. sw.js does not
+# see the meta tag. It needs 'self' or it cannot fill the offline cache.
+# frame-ancestors is header-only; browsers ignore it in a meta tag.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=(), browsing-topics=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; child-src 'none'; frame-ancestors 'none'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests
+
+/index.html
+  Cache-Control: no-cache
+
+/offline.html
+  Cache-Control: no-cache
+
+/sw.js
+  Cache-Control: no-cache
