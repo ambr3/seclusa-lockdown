@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.2] - 2026-11-06
+
+- Cache stamp so an installed copy loads the 0.1.1 install id and icons.
+
 ## [0.1.1] - 2026-11-06
 
 - The install id is `/seclusa-lockdown/`, so this app is not the same installed app as the others on ambr3.github.io.
