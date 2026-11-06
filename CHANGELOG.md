@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.9.0] - 2026-11-06
+## [0.1.0] - 2026-11-06
 
 - Named the game Seclusa Lockdown and published it as its own app.
 - Light stays on the upper left while visors, guns, and blades turn with facing.

@@ -11,7 +11,7 @@
   "orientation": "any",
   "background_color": "#0a0a0a",
   "theme_color": "#0a0a0a",
-  "version": "1.9.0",
+  "version": "0.1.0",
   "icons": [
     {
       "src": "static/icons/icon-192.png",
