@@ -19,8 +19,8 @@ FG = (255, 255, 255, 255)
 ACCENT = (249, 115, 22, 255)
 
 
-def draw_mark(scale=1.0, colour=FG):
-    s = int(SIZE * scale)
+def draw_mark(size, colour=FG):
+    s = int(size)
     layer = Image.new("RGBA", (s, s), (0, 0, 0, 0))
     d = ImageDraw.Draw(layer)
     # vault door
@@ -41,17 +41,17 @@ def draw_mark(scale=1.0, colour=FG):
     return layer
 
 
-def make_tile(scale, colour, size):
-    out = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    mark = draw_mark(scale, colour)
-    out.paste(mark, (0, 0), mark)
-    return out
+def make_tile(size):
+    plate = Image.new("RGBA", (size, size), BG)
+    mark = draw_mark(size, FG)
+    plate.paste(mark, (0, 0), mark)
+    return plate
 
 
-def make_maskable(colour, size):
+def make_maskable(size):
     out = Image.new("RGBA", (size, size), BG)
     inner = int(size * 0.72)
-    mark = draw_mark(inner / SIZE, colour)
+    mark = draw_mark(inner, FG)
     off = (size - inner) // 2
     out.paste(mark, (off, off), mark)
     return out
@@ -74,13 +74,9 @@ def main():
     ICONS.mkdir(parents=True, exist_ok=True)
 
     for size in (192, 512):
-        tile = make_tile(1.0, FG, size)
-        # solid black plate under mark
-        plate = Image.new("RGBA", (size, size), BG)
-        plate.paste(tile, (0, 0), tile)
-        plate.save(ICONS / f"icon-{size}.png")
+        make_tile(size).save(ICONS / f"icon-{size}.png")
 
-    make_maskable(FG, 512).save(ICONS / "icon-maskable-512.png")
+    make_maskable(512).save(ICONS / "icon-maskable-512.png")
     (ICONS / "icon.svg").write_text(SVG, encoding="utf-8")
 
     for name in ("icon-192.png", "icon-512.png", "icon-maskable-512.png", "icon.svg"):

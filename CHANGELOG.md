@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.1.1] - 2026-11-06
+
+- The install id is `/seclusa-lockdown/`, so this app is not the same installed app as the others on ambr3.github.io.
+- Install icons are drawn at 192 and 512, not cropped from the corner of a larger image.
+
 ## [0.1.0] - 2026-11-06
 
 - Named the game Seclusa Lockdown and published it as its own app.
