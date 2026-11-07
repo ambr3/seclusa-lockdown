@@ -280,7 +280,35 @@
       game.update(dt, input);
     }
     game.render();
+    syncPlayHud();
     raf = window.requestAnimationFrame(frame);
+  }
+
+  function syncPlayHud() {
+    var bar = $("playhud");
+    if (!bar || !game || !game.hudSnapshot) return;
+    var menu = $("overlay-menu");
+    var menuOpen = menu && !menu.hidden && !menu.classList.contains("hidden");
+    var show = game.isPlaying() && !game.isOver() && !menuOpen;
+    bar.hidden = !show;
+    if (!show) return;
+    var hud = game.hudSnapshot();
+    $("hud-score").textContent = "Score " + hud.score;
+    var hpEl = $("hud-hp");
+    hpEl.textContent = "HP " + hud.hp;
+    hpEl.classList.toggle("is-low", hud.lowHp);
+    var ammoEl = $("hud-ammo");
+    ammoEl.textContent = "Ammo " + hud.ammo;
+    ammoEl.classList.toggle("is-low", hud.lowAmmo);
+    $("hud-weapon").textContent = hud.weapon;
+    $("hud-deck").textContent = hud.deck;
+    ["R", "G", "B"].forEach(function (c) {
+      var chip = $("hud-card-" + c);
+      if (chip) chip.classList.toggle("on", !!hud.cards[c]);
+    });
+    var gear = $("hud-gear");
+    gear.hidden = !hud.gear;
+    gear.textContent = hud.gear;
   }
 
   function startLoop() {
@@ -315,6 +343,7 @@
     }
     syncMenuProgress();
     showOverlay("overlay-over");
+    syncPlayHud();
   }
 
   function goMenu() {
@@ -328,6 +357,7 @@
     syncControlsBlurb();
     syncMenuProgress();
     showOverlay("overlay-menu");
+    syncPlayHud();
   }
 
   function registerSw() {

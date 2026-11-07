@@ -68,6 +68,45 @@ button.accentpill {
 button.accentpill:hover { filter: brightness(1.08); }
 button.accentpill:active { transform: scale(.96); }
 
+/* ---------------------------------------------------------------- play hud */
+
+.playhud {
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  min-height: 34px;
+  padding: 6px 12px;
+  background: #efe0c4;
+  color: #1a120c;
+  border-bottom: 3px solid #1a120c;
+  font: 700 13px/1.2 system-ui, sans-serif;
+  z-index: 60;
+}
+.playhud[hidden] { display: none; }
+.playhud .is-low { color: var(--danger, #f2857c); }
+#hud-weapon { color: #c2410c; }
+#hud-deck {
+  min-width: 0;
+  color: #5c4633;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.playhud-cards { display: inline-flex; gap: 6px; align-items: center; }
+.playhud-cards i {
+  width: 18px;
+  height: 12px;
+  border: 1.5px solid currentColor;
+  border-radius: 2px;
+  opacity: 0.35;
+}
+.playhud-cards i[data-card="R"] { color: #e11d48; }
+.playhud-cards i[data-card="G"] { color: #16a34a; }
+.playhud-cards i[data-card="B"] { color: #2563eb; }
+.playhud-cards i.on { opacity: 1; background: currentColor; }
+#hud-gear { color: #2f8f8a; }
+
 /* ---------------------------------------------------------------- stage */
 
 .stage {

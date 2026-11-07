@@ -2412,64 +2412,12 @@
       ctx.restore();
 
       drawVignette();
-      var gearBits = [];
-      if (owned.dash) gearBits.push(dashCool > 0.15 ? "Dash…" : "Dash");
-      if (breachCharges) gearBits.push("Breach");
-      if (owned.hull) gearBits.push("Patch");
-      var plateH = gearBits.length ? 174 : 156;
-      roundPlate(12, 12, 168, plateH, 8);
-      ctx.fillStyle = "rgba(20,12,8,0.35)";
-      ctx.fill();
-      roundPlate(8, 8, 168, plateH, 8);
-      ctx.fillStyle = "rgba(239,224,196,0.92)";
-      ctx.fill();
-      ctx.strokeStyle = "#1a120c";
-      ctx.lineWidth = 3;
-      ctx.stroke();
       if (flash > 0) {
         ctx.fillStyle = "rgba(180,30,30," + (flash * 1.2) + ")";
         ctx.fillRect(0, 0, w, h);
       }
 
       drawMinimap(text, dim, danger, colours);
-
-      ctx.fillStyle = "#1a120c";
-      ctx.font = "700 13px system-ui, sans-serif";
-      ctx.textAlign = "left";
-      ctx.fillText("Score " + score, 18, 28);
-      ctx.fillStyle = hp <= 2 ? danger : "#1a120c";
-      ctx.fillText("HP " + hp, 18, 46);
-      ctx.fillStyle = ammo <= 8 ? danger : "#1a120c";
-      ctx.fillText("Ammo " + ammo, 18, 64);
-      ctx.fillStyle = "#c2410c";
-      ctx.fillText(weapon().name, 18, 82);
-      ctx.fillStyle = "#5c4633";
-      ctx.font = "700 12px system-ui, sans-serif";
-      ctx.fillText(map.name, 18, 100);
-      ctx.fillText("Cards", 18, 118);
-      var slots = ["R", "G", "B"];
-      for (i = 0; i < slots.length; i++) {
-        var c = slots[i];
-        var sx2 = 32 + i * 36;
-        if (inventory[c]) {
-          drawKeycard(sx2, 140, colours[c]);
-        } else {
-          ctx.save();
-          ctx.translate(sx2, 140);
-          ctx.rotate(-0.25);
-          ctx.globalAlpha = 0.3;
-          ctx.strokeStyle = colours[c];
-          ctx.lineWidth = 1.5;
-          ctx.strokeRect(-9, -6, 18, 12);
-          ctx.globalAlpha = 1;
-          ctx.restore();
-        }
-      }
-      if (gearBits.length) {
-        ctx.fillStyle = "#2f8f8a";
-        ctx.font = "700 11px system-ui, sans-serif";
-        ctx.fillText(gearBits.join("  "), 18, 158);
-      }
 
       if (patchRun && nearShip() && !shopOpen && playing && !paused) {
         ctx.fillStyle = text;
@@ -2491,14 +2439,14 @@
         ctx.textBaseline = "middle";
         var tw = ctx.measureText(toastMsg).width;
         ctx.globalAlpha = Math.min(1, toastLife);
-        roundPlate(w * 0.5 - tw / 2 - 14, 168, tw + 28, 32, 8);
+        roundPlate(w * 0.5 - tw / 2 - 14, 14, tw + 28, 32, 8);
         ctx.fillStyle = "#1a120c";
         ctx.fill();
         ctx.strokeStyle = "#e8d0a8";
         ctx.lineWidth = 2;
         ctx.stroke();
         ctx.fillStyle = "#f8f1e3";
-        ctx.fillText(toastMsg, w * 0.5, 184);
+        ctx.fillText(toastMsg, w * 0.5, 30);
         ctx.globalAlpha = 1;
         ctx.textAlign = "left";
         ctx.textBaseline = "alphabetic";
@@ -2631,6 +2579,23 @@
       isOver: function () { return over; },
       didWin: function () { return won; },
       getScore: function () { return score; },
+      hudSnapshot: function () {
+        var gearBits = [];
+        if (owned.dash) gearBits.push(dashCool > 0.15 ? "Dash…" : "Dash");
+        if (breachCharges) gearBits.push("Breach");
+        if (owned.hull) gearBits.push("Patch");
+        return {
+          score: score,
+          hp: hp,
+          ammo: ammo,
+          weapon: weapon().name,
+          deck: map ? map.name : "",
+          cards: { R: !!inventory.R, G: !!inventory.G, B: !!inventory.B },
+          lowHp: hp <= 2,
+          lowAmmo: ammo <= 8,
+          gear: gearBits.join("  ")
+        };
+      },
       getPlayerPos: function () { return { x: player.x - camX, y: player.y - camY }; },
       setOnOver: function (fn) { onOver = fn; },
       setOnShop: function (fn) { onShop = fn; },

@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.3] - 2026-11-07
+
+- Score, hull, ammo, and keycards sit in a bar above the play view instead of covering it.
+
 ## [0.1.2] - 2026-11-06
 
 - Cache stamp so an installed copy loads the 0.1.1 install id and icons.

@@ -17,9 +17,9 @@
 
   <title>Seclusa Lockdown</title>
 
-  <script src="static/js/theme-boot.js?v=0.1.2"></script>
+  <script src="static/js/theme-boot.js?v=0.1.3"></script>
   <link rel="stylesheet" href="static/css/seclusa-base.css">
-  <link rel="stylesheet" href="static/css/app.css?v=0.1.2">
+  <link rel="stylesheet" href="static/css/app.css?v=0.1.3">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="static/icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="static/icons/icon-192.png">
@@ -34,6 +34,20 @@
     <button type="button" class="accentpill" id="btn-theme" aria-haspopup="dialog" aria-controls="sheet-theme">Theme</button>
   </div>
 </header>
+
+<div class="playhud" id="playhud" hidden>
+  <span id="hud-score">Score 0</span>
+  <span id="hud-hp">HP 5</span>
+  <span id="hud-ammo">Ammo 80</span>
+  <span id="hud-weapon">Pistol</span>
+  <span id="hud-deck"></span>
+  <span class="playhud-cards" aria-label="Cards">
+    <i id="hud-card-R" data-card="R"></i>
+    <i id="hud-card-G" data-card="G"></i>
+    <i id="hud-card-B" data-card="B"></i>
+  </span>
+  <span id="hud-gear" hidden></span>
+</div>
 
 <main class="stage" id="stage">
   <canvas id="game" width="800" height="600" aria-label="Fortress decks"></canvas>
@@ -156,13 +170,13 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
-<script src="static/js/store.js?v=0.1.2"></script>
-<script src="static/js/theme.js?v=0.1.2"></script>
-<script src="static/js/settings.js?v=0.1.2"></script>
-<script src="static/js/audio.js?v=0.1.2"></script>
-<script src="static/js/map.js?v=0.1.2"></script>
-<script src="static/js/input.js?v=0.1.2"></script>
-<script src="static/js/game.js?v=0.1.2"></script>
-<script src="static/js/app.js?v=0.1.2"></script>
+<script src="static/js/store.js?v=0.1.3"></script>
+<script src="static/js/theme.js?v=0.1.3"></script>
+<script src="static/js/settings.js?v=0.1.3"></script>
+<script src="static/js/audio.js?v=0.1.3"></script>
+<script src="static/js/map.js?v=0.1.3"></script>
+<script src="static/js/input.js?v=0.1.3"></script>
+<script src="static/js/game.js?v=0.1.3"></script>
+<script src="static/js/app.js?v=0.1.3"></script>
 </body>
 </html>
